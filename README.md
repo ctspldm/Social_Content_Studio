@@ -4,7 +4,7 @@ A one-file app that turns a short brief into a ready-to-post **Instagram/Faceboo
 
 It's set up for **Natania Preschool**, **New Genesis Educational Institution (NGEI)** and **CentureTech Solutions**, and you can add more brands in Settings.
 
-**▶ Open the app:** https://ctspldm.github.io/social_content_studio/ (use Microsoft Edge or Google Chrome)
+**▶ Open the app:** https://ctspldm.github.io/Social_Content_Studio/ (use Microsoft Edge or Google Chrome)
 
 ## What you get for every post
 
@@ -19,7 +19,7 @@ It's set up for **Natania Preschool**, **New Genesis Educational Institution (NG
 
 ## How to use
 
-1. Open **https://ctspldm.github.io/social_content_studio/** in **Microsoft Edge or Google Chrome**, the browsers that can make the videos. Bookmark it.
+1. Open **https://ctspldm.github.io/Social_Content_Studio/** in **Microsoft Edge or Google Chrome**, the browsers that can make the videos. Bookmark it.
    (Or download `index.html` and double-click it.)
 2. Click **⚙ Settings**, paste your Claude API key (from [console.anthropic.com](https://console.anthropic.com) → API Keys), then click **Save**.
    You can also upload each brand's logo there and edit its colours, music, contact details, hashtags and rules.

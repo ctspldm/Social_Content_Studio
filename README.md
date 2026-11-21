@@ -21,12 +21,14 @@ It's set up for **Natania Preschool**, **New Genesis Educational Institution (NG
 
 1. Open **https://ctspldm.github.io/Social_Content_Studio/** in **Microsoft Edge or Google Chrome**, the browsers that can make the videos. Bookmark it.
    (Or download `index.html` and double-click it.)
-2. Click **⚙ Settings**, paste your Claude API key (from [console.anthropic.com](https://console.anthropic.com) → API Keys), then click **Save**.
-   You can also upload each brand's logo there and edit its colours, music, contact details, hashtags and rules.
-3. On **✏️ Create**, pick a brand, type or paste the brief, then click **Create**.
+2. Choose how the text is written:
+   - **⚡ Automatic:** paste your Claude API key in **⚙ Settings** (from [console.anthropic.com](https://console.anthropic.com) → API Keys). Then click **Create** and everything is done for you.
+   - **💬 Free with claude.ai:** no API key needed. Click **📋 Copy prompt**, paste it into [claude.ai](https://claude.ai/new), attach the same photos in the same order, and send. Copy Claude's answer back into the app, then click **🎬 Make videos**.
+   In **⚙ Settings** you can also upload each brand's logo and edit its colours, music, contact details, hashtags and rules.
+3. For each post: pick the brand, describe the post, and add your real photos (click or drag & drop, up to 20).
    - **＋ Add another post** adds more posts, for any brand.
    - **📋 Paste many briefs (bulk)** lets you paste many at once, with a `---` line between them.
-   - **Add your real photos (up to 20 per post). This is strongly recommended.** Claude looks at them, picks the best one for each moment, and builds the Reel (photo montages and text over photos), the Stories and the cover from them. Real photos build trust and bring enquiries.
+   - **Real photos are strongly recommended.** Claude looks at them and builds the Reel (photo montages and text over photos), the Stories and the cover from them. Real photos build trust and bring enquiries.
 4. Open **📚 Library** to watch the videos, copy texts, edit the video text and re-make it, or rewrite with Claude.
 5. Use **📤 Upload helper** or **⬇ Download all (ZIP)** to publish through Meta Business Suite.
 

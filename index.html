@@ -8,72 +8,105 @@
 <script src="https://cdn.jsdelivr.net/npm/mp4-muxer@5.2.1/build/mp4-muxer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <style>
-:root{--bg:#f6f7fb;--card:#fff;--ink:#1d2333;--muted:#6b7285;--line:#e3e6ee;--accent:#5b4bdb;--ok:#1f9d55;--err:#c0392b}
-@media (prefers-color-scheme: dark){:root{--bg:#14161d;--card:#1d2029;--ink:#e9ebf2;--muted:#9aa1b5;--line:#2e3240}}
+:root{--bg:#f4f5fb;--card:#fff;--ink:#1b1f33;--muted:#6b7187;--line:#e4e6f0;--accent:#6d4aff;--accent2:#ff5c8a;--soft:#f0edff;--ok:#16a34a;--err:#d93025;--shadow:0 1px 2px rgba(20,20,50,.04),0 8px 24px rgba(20,20,50,.06)}
+@media (prefers-color-scheme: dark){:root{--bg:#11131b;--card:#1a1d29;--ink:#eceef6;--muted:#9aa0b8;--line:#2b2f40;--soft:#262142;--shadow:0 1px 2px rgba(0,0,0,.3)}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{display:flex;align-items:center;gap:16px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:5;flex-wrap:wrap}
-header h1{font-size:18px;margin:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Nunito,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;align-items:center;gap:14px;padding:12px 22px;background:linear-gradient(120deg,#6d4aff,#a24bff 55%,#ff5c8a);color:#fff;position:sticky;top:0;z-index:5;flex-wrap:wrap;box-shadow:0 4px 18px rgba(109,74,255,.25)}
+.logo{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px}
+header h1{font:800 20px/1.1 "Baloo 2",Nunito,sans-serif;margin:0}
+header h1 small{display:block;font:600 12px Nunito,sans-serif;opacity:.85}
 nav{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
-nav button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.badge-count{display:inline-block;min-width:20px;padding:0 6px;border-radius:10px;background:#ff5c8a;color:#fff;font-size:12px;margin-left:4px}
-main{max-width:1180px;margin:0 auto;padding:20px 16px 80px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
-textarea,input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px}
-textarea{min-height:100px;resize:vertical}
-label{font-size:13px;color:var(--muted);display:block;margin:0 0 4px}
+nav button{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);color:#fff;font-weight:700}
+nav button.on{background:#fff;color:var(--accent);border-color:#fff}
+.badge-count{display:inline-block;min-width:20px;padding:0 6px;border-radius:10px;background:#ffd166;color:#3b2a00;font-size:12px;margin-left:4px}
+main{max-width:1120px;margin:0 auto;padding:22px 16px 120px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}
+textarea,input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;transition:border-color .15s}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:96px;resize:vertical}
+label{font-size:13px;font-weight:700;color:var(--muted);display:block;margin:0 0 5px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:10px}
-button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px}
-button.primary{background:var(--accent);color:#fff;border-color:var(--accent);padding:11px 20px;font-weight:600}
-button.small{font-size:12px;padding:4px 10px}
+button{font:inherit;font-weight:700;cursor:pointer;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;transition:transform .05s,background .15s}
+button:active{transform:translateY(1px)}
+button.primary{background:linear-gradient(120deg,#6d4aff,#a24bff);color:#fff;border:0;padding:12px 22px;box-shadow:0 6px 16px rgba(109,74,255,.3)}
+button.ghost{background:var(--soft);border-color:transparent;color:var(--accent)}
+button.small{font-size:12px;padding:5px 11px}
 button.danger{color:var(--err)}
-button:disabled{opacity:.55;cursor:not-allowed}
+button:disabled{opacity:.5;cursor:not-allowed}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
 .muted{color:var(--muted);font-size:13px}
 .err{color:var(--err)}
+.ok{color:var(--ok)}
 .brandchips{display:flex;gap:8px;flex-wrap:wrap}
-.brandchips button{border-width:2px}
-.brandchips button.on{border-color:var(--bc);background:color-mix(in srgb,var(--bc) 12%,var(--card));font-weight:600}
-.post{position:relative}
-.post .num{position:absolute;top:12px;right:14px;display:flex;gap:6px;align-items:center}
-.thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.thumbs img{width:56px;height:56px;object-fit:cover;border-radius:6px}
-.batchlist .item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px;border-bottom:1px solid var(--line);cursor:pointer}
-.batchlist .item:hover,.batchlist .item.sel{background:var(--bg)}
-.bar{height:8px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:6px}
-.bar>div{height:100%;background:var(--accent);transition:width .3s}
-.status{font-size:12px;font-weight:700;padding:2px 10px;border-radius:20px;background:var(--line)}
+.brandchips button{display:flex;align-items:center;gap:8px;border-width:2px;border-radius:999px;padding:7px 14px}
+.brandchips button i{width:12px;height:12px;border-radius:50%;background:var(--bc)}
+.brandchips button.on{border-color:var(--bc);background:color-mix(in srgb,var(--bc) 14%,var(--card))}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mode{border:2px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;background:var(--card);text-align:left}
+.mode b{display:block;font-size:16px}
+.mode span{font-size:13px;color:var(--muted);font-weight:600}
+.mode.on{border-color:var(--accent);background:var(--soft)}
+.post{position:relative;padding-top:14px}
+.post-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.post-head .n{width:30px;height:30px;border-radius:50%;background:linear-gradient(120deg,#6d4aff,#ff5c8a);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800}
+.post-head b{font-size:16px}
+.post-head .sp{flex:1}
+.step{display:flex;gap:10px;margin-top:14px}
+.step .k{flex:none;width:22px;height:22px;border-radius:50%;background:var(--soft);color:var(--accent);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.step>div{flex:1;min-width:0}
+.drop{border:2px dashed var(--line);border-radius:14px;padding:14px;text-align:center;cursor:pointer;background:var(--bg);transition:border-color .15s,background .15s}
+.drop.hover{border-color:var(--accent);background:var(--soft)}
+.drop input{display:none}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.thumbs .t{position:relative}
+.thumbs img{width:64px;height:84px;object-fit:cover;border-radius:10px;display:block}
+.thumbs .t b{position:absolute;left:4px;top:4px;background:rgba(0,0,0,.6);color:#fff;font-size:11px;border-radius:6px;padding:0 5px}
+.thumbs .t button{position:absolute;right:-6px;top:-6px;width:22px;height:22px;padding:0;border-radius:50%;font-size:12px;line-height:1;background:#fff;color:#d93025;border:1px solid var(--line)}
+.cai{background:var(--soft);border-radius:14px;padding:14px;margin-top:14px}
+.cai ol{margin:6px 0 10px;padding-left:20px}
+.cai textarea{min-height:110px;background:var(--card);font-family:ui-monospace,Consolas,monospace;font-size:12px}
+details.opts summary{cursor:pointer;font-weight:700;color:var(--muted);font-size:13px;margin-top:12px}
+.bottombar{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line);z-index:4}
+.bottombar .in{max-width:1120px;margin:0 auto;padding:12px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.batchlist .item{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px;border-radius:12px;cursor:pointer}
+.batchlist .item:hover,.batchlist .item.sel{background:var(--soft)}
+.bar{height:8px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:8px}
+.bar>div{height:100%;background:linear-gradient(90deg,#6d4aff,#ff5c8a);transition:width .3s}
+.status{font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;background:var(--line);text-transform:capitalize}
 .status.done{background:#d7f5e3;color:#11643a}.status.error{background:#fde2df;color:#9b2c20}
-.media{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
+.media{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
 .media figure{margin:0;text-align:center}
-.media video,.media img{width:170px;aspect-ratio:9/16;border-radius:10px;background:#000;object-fit:cover;display:block}
-.media figcaption{font-size:12px;color:var(--muted);margin-top:4px}
-.media a{font-size:12px}
+.media video,.media img{width:160px;aspect-ratio:9/16;border-radius:12px;background:#000;object-fit:cover;display:block;box-shadow:var(--shadow)}
+.media figcaption{font-size:12px;color:var(--muted);margin-top:5px}
+.media a{font-size:12px;color:var(--accent)}
 .tabs{display:flex;gap:6px;margin:8px 0;flex-wrap:wrap}
 .tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
-.block{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;position:relative}
-.block h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding-right:70px}
+.block{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;position:relative}
+.block h3{margin:0 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding-right:70px}
 .block pre{margin:0;white-space:pre-wrap;word-wrap:break-word;font:inherit}
 .block .copy{position:absolute;top:8px;right:8px;font-size:12px;padding:4px 10px}
 .done-flash{background:var(--ok)!important;color:#fff!important;border-color:var(--ok)!important}
-.helper .step{display:grid;grid-template-columns:28px 110px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line);align-items:start}
-.helper .step video{width:110px;aspect-ratio:9/16;border-radius:8px;background:#000;object-fit:cover}
+.helper .step{display:grid;grid-template-columns:28px 110px 1fr;gap:12px;padding:12px 0;border-top:1px solid var(--line);align-items:start;margin:0}
+.helper .step video{width:110px;aspect-ratio:9/16;border-radius:10px;background:#000;object-fit:cover}
 .helper input[type=checkbox]{width:20px;height:20px}
 .helper .done-row{opacity:.5}
-dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);max-width:820px;width:calc(100% - 32px);max-height:90vh}
-.brandedit{border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:12px}
+dialog{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);max-width:820px;width:calc(100% - 32px);max-height:90vh;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(20,15,50,.45)}
+.brandedit{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px}
 .brandedit textarea{min-height:70px}
 .colors{display:flex;gap:8px;flex-wrap:wrap}
 .colors input{width:56px;height:36px;padding:2px}
 .empty{text-align:center;padding:40px;color:var(--muted)}
-.hero{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.hero .pill{background:color-mix(in srgb,var(--accent) 12%,var(--card));border-radius:20px;padding:4px 12px;font-size:13px}
-@media (max-width:600px){.helper .step{grid-template-columns:24px 1fr}.helper .step video{display:none}}
+.warn{border-color:#f5c26b;background:#fff8e6;color:#7a4b00}
+@media (prefers-color-scheme: dark){.warn{background:#3a2c10;color:#ffd99a}}
+@media (max-width:600px){.helper .step{grid-template-columns:24px 1fr}.helper .step video{display:none}.modes{grid-template-columns:1fr}header h1 small{display:none}}
 </style>
 </head>
 <body>
 <header>
-  <h1>🎬 Social Content Studio <span class="muted">v2 · Reels &amp; Stories for Meta Business Suite</span></h1>
+  <div class="logo">🎬</div>
+  <h1>Social Content Studio<small>Reels &amp; Stories for Meta Business Suite · v2</small></h1>
   <nav>
     <button data-view="create" class="on">✏️ Create</button>
     <button data-view="library">📚 Library <span id="workCount"></span></button>
@@ -83,25 +116,30 @@ dialog{border:1px solid var(--line);border-radius:12px;background:var(--card);co
 
 <main>
 <section id="view-create">
-  <div id="warn" class="card err" hidden></div>
+  <div id="warn" class="card warn" hidden></div>
   <div class="card">
-    <div class="hero"><b>Each post gives you:</b>
-      <span class="pill">📝 captions, hashtags, first comment</span><span class="pill">🎬 Reel video (MP4)</span><span class="pill">🖼 Reel cover</span>
-      <span class="pill">📱 Story videos + images</span><span class="pill">📤 upload checklist</span></div>
-    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-top:12px">
-      <div style="flex:1;min-width:200px"><label>Batch name</label><input id="batchName" placeholder="e.g. December posts"></div>
-      <div><label>First post date</label><input id="startDate" type="date"></div>
-      <div><label>Posts per day (per brand)</label><select id="perDay"><option>1</option><option>2</option><option>3</option></select></div>
+    <label>How should the text be written?</label>
+    <div class="modes">
+      <button type="button" class="mode" data-mode="api"><b>⚡ Automatic</b><span>Uses your Claude API key. Click Create and everything is written and made for you.</span></button>
+      <button type="button" class="mode" data-mode="claudeai"><b>💬 Free with claude.ai</b><span>Copy a prompt into claude.ai, paste the answer back, and the app makes the videos.</span></button>
     </div>
+    <details class="opts"><summary>📅 Batch name &amp; posting schedule</summary>
+      <div class="grid">
+        <div style="grid-column:span 2"><label>Batch name</label><input id="batchName" placeholder="e.g. December posts"></div>
+        <div><label>First post date</label><input id="startDate" type="date"></div>
+        <div><label>Posts per day (per brand)</label><select id="perDay"><option>1</option><option>2</option><option>3</option></select></div>
+      </div>
+    </details>
   </div>
   <div id="posts"></div>
   <div class="actions">
-    <button id="addPost">＋ Add another post</button>
-    <button id="pasteMany">📋 Paste many briefs (bulk)</button>
-    <span style="flex:1"></span>
-    <button class="primary" id="createBtn">✨ Create</button>
+    <button class="ghost" id="addPost">＋ Add another post</button>
+    <button class="ghost" id="pasteMany">📋 Paste many briefs (bulk)</button>
   </div>
-  <p id="createStatus" class="muted"></p>
+  <div class="bottombar"><div class="in">
+    <span id="createStatus" class="muted" style="flex:1">Each post: captions + Reel video + cover + Story videos &amp; images</span>
+    <button class="primary" id="createBtn">✨ Create</button>
+  </div></div>
 </section>
 
 <section id="view-library" hidden>
@@ -682,44 +720,95 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>show(b.dataset.view));
 function show(v){document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('on',b.dataset.view===v));$('#view-create').hidden=v!=='create';$('#view-library').hidden=v!=='library';if(v==='library')refreshLibrary(true);}
 
-function checkWarn(){const w=[];if(!CFG.apiKey)w.push('Add your Claude API key in ⚙ Settings to start.');
-  if(!('VideoEncoder' in window))w.push('Videos can only be made in Google Chrome or Microsoft Edge — please open this file in one of those.');
-  $('#warn').innerHTML=w.join('<br>');$('#warn').hidden=!w.length;
-  pickCodecs().then(c=>{if(!c.a)w.push('This browser cannot add music to videos — videos will be silent (add a sound in Instagram).');
-    else if(c.a.mux==='opus')w.push('Note: this browser saves video music in Opus format. If Business Suite rejects a video, open the app in Microsoft Edge or Chrome on Windows.');
-    $('#warn').innerHTML=w.join('<br>');$('#warn').hidden=!w.length;}).catch(()=>{});}
+let MODE=ls.get('mode',null);
+function setMode(m){MODE=m;ls.set('mode',m);document.querySelectorAll('.mode').forEach(x=>x.classList.toggle('on',x.dataset.mode===m));checkWarn();renderPosts();}
+document.querySelectorAll('.mode').forEach(x=>x.onclick=()=>setMode(x.dataset.mode));
+function checkWarn(){const w=[];if(MODE==='api'&&!CFG.apiKey)w.push('⚡ Automatic needs your Claude API key: click ⚙ Settings. No key? Choose 💬 Free with claude.ai.');
+  if(!('VideoEncoder' in window))w.push('Videos can only be made in Google Chrome or Microsoft Edge. Please open the app in one of those.');
+  const show=()=>{$('#warn').innerHTML=w.join('<br>');$('#warn').hidden=!w.length;};show();
+  pickCodecs().then(c=>{if(!c.a)w.push('This browser cannot add music to videos, so videos will be silent (you can add a sound in Instagram).');
+    else if(c.a.mux==='opus')w.push('Note: this browser saves video music in Opus format. If Business Suite rejects a video, use Microsoft Edge or Chrome on Windows.');show();}).catch(()=>{});}
 
 /* ---------- create ---------- */
 let posts=[];
 const LANGS=['English','English + Kannada mix','English + Hindi mix (Hinglish)','Kannada','Hindi'];
 const GOALS=['Admissions / Enquiries','Awareness','Event promotion','Engagement','Festival greeting','Testimonial / Trust','Lead generation'];
-const newPost=(brand,brief='')=>({brand:brand||ls.get('lastBrand',CFG.brands[0]?.id),brief,language:'English',length:30,frames:4,goal:GOALS[0],photos:[]});
+const newPost=(brand,brief='')=>({brand:brand||ls.get('lastBrand',CFG.brands[0]?.id),brief,language:'English',length:30,frames:4,goal:GOALS[0],photos:[],photoNames:[],answer:'',parsed:null,perr:''});
 const opt=(list,val)=>list.map(x=>`<option ${String(x)===String(val)?'selected':''}>${esc(x)}</option>`).join('');
-const chips=sel=>CFG.brands.map(b=>`<button type="button" style="--bc:${b.colors?.primary||'#5b4bdb'}" class="${b.id===sel?'on':''}" data-b="${b.id}">${esc(b.name)}</button>`).join('');
+const chips=sel=>CFG.brands.map(b=>`<button type="button" style="--bc:${b.colors?.primary||'#6d4aff'}" class="${b.id===sel?'on':''}" data-b="${b.id}"><i></i>${esc(b.name)}</button>`).join('');
+
+function claudeAiPrompt(p){
+  const n=p.photos.length;
+  return `${SYSTEM}
+
+${buildPrompt(brandById(p.brand),p,n)}
+${n?`
+PHOTOS: I have attached ${n} photo${n>1?'s':''} to this message, in this order:
+${p.photoNames.map((nm,i)=>`Photo ${i} = attachment ${i+1} (${nm})`).join('\n')}
+`:''}
+OUTPUT FORMAT: Reply with ONLY one \`\`\`json code block (no other text) containing a single JSON object that matches this JSON Schema exactly:
+${JSON.stringify(SCHEMA)}`;
+}
+function parseAnswer(text,brand){
+  const m=String(text).match(/```(?:json)?\s*([\s\S]*?)```/);let src=m?m[1]:String(text);
+  const i=src.indexOf('{'),j=src.lastIndexOf('}');if(i<0)throw new Error('No JSON found. Copy Claude\'s whole answer (the code block).');
+  if(j<i)throw new Error('The answer is cut off. Ask Claude: "send the complete JSON again".');
+  let c;try{c=JSON.parse(src.slice(i,j+1));}catch(e){throw new Error('The answer is cut off or not valid JSON. Ask Claude: "send the complete JSON again".');}
+  const S=v=>v==null?'':String(v),A=v=>Array.isArray(v)?v:[],I=v=>Number.isInteger(v)?v:(Number.isInteger(+v)&&v!==''&&v!=null?+v:-1);
+  const r=c.reel||{},v=r.video||{},st=c.story||{};
+  const scenes=A(v.scenes).map(x=>({type:['hook','text','checklist','phone','icon','stat','photo','gallery'].includes(x.type)?x.type:'text',seconds:+x.seconds||3,headline:S(x.headline),highlight:S(x.highlight),emoji:S(x.emoji),subline:S(x.subline),app_title:S(x.app_title),
+    items:A(x.items).map(it=>({emoji:S(it.emoji),title:S(it.title),subtitle:S(it.subtitle),chip:S(it.chip)})),stat_value:S(x.stat_value),stat_label:S(x.stat_label),stars:!!x.stars,photo_index:I(x.photo_index),photo_indexes:A(x.photo_indexes).map(I).filter(k=>k>=0)}));
+  if(!scenes.length)throw new Error('The answer has no video scenes (reel.video.scenes).');
+  const frames=A(st.frames).map((f,k)=>({frame:k+1,visual:S(f.visual),text:S(f.text),sticker_type:S(f.sticker_type),sticker_text:S(f.sticker_text),headline:S(f.headline||f.text),highlight:S(f.highlight),emoji:S(f.emoji),body:S(f.body),photo_index:I(f.photo_index)}));
+  if(!frames.length)throw new Error('The answer has no story frames (story.frames).');
+  const out={reel:{title:S(r.title),hook:S(r.hook),cover_text:S(r.cover_text),shoot_script:A(r.shoot_script).map(x=>({time:S(x.time),visual:S(x.visual),on_screen_text:S(x.on_screen_text),voiceover:S(x.voiceover)})),
+      caption:S(r.caption),hashtags:A(r.hashtags).map(S),cta:S(r.cta),music_mood:S(r.music_mood),first_comment:S(r.first_comment),alt_text:S(r.alt_text),location:S(r.location),posting_tip:S(r.posting_tip),
+      video:{scenes,end_cta:S(v.end_cta),end_badge:S(v.end_badge),cover_highlight:S(v.cover_highlight),cover_emoji:S(v.cover_emoji),cover_photo_index:I(v.cover_photo_index)}},
+    story:{frames,posting_tip:S(st.posting_tip)},facebook_caption:S(c.facebook_caption)};
+  return tidy(out,brand);
+}
+async function addPhotos(p,files){
+  const fs=[...files].filter(f=>f.type.startsWith('image/')).slice(0,20-p.photos.length);if(!fs.length)return;
+  $('#createStatus').textContent='Preparing photos…';
+  for(const f of fs){p.photos.push(await shrinkPhoto(f));p.photoNames.push(f.name);}
+  p.parsed=null;$('#createStatus').textContent='';renderPosts();
+}
 function renderPosts(){
-  const box=$('#posts');box.innerHTML='';
-  posts.forEach((p,i)=>{const el=document.createElement('div');el.className='card post';
-    el.innerHTML=`<div class="num"><span class="muted">Post ${i+1}</span>${posts.length>1?'<button class="small danger" data-rm>Remove</button>':''}</div>
-      <label>Brand</label><div class="brandchips">${chips(p.brand)}</div>
-      <label style="margin-top:10px">What is this post about? (idea, event, offer — or paste a full brief with your rules)</label>
-      <textarea data-k="brief" placeholder="e.g. Annual Day on 20 Dec — kids dance and drama, admissions open">${esc(p.brief)}</textarea>
-      <div class="grid">
-        <div><label>Language</label><select data-k="language">${opt(LANGS,p.language)}</select></div>
-        <div><label>Reel length</label><select data-k="length">${[15,20,30,45,60].map(x=>`<option value="${x}" ${x==p.length?'selected':''}>${x} seconds</option>`).join('')}</select></div>
-        <div><label>Story frames</label><select data-k="frames">${opt([3,4,5,6],p.frames)}</select></div>
-        <div><label>Goal</label><select data-k="goal">${opt(GOALS,p.goal)}</select></div>
-        <div><label>📷 Real photos for the videos (up to 20 — strongly recommended)</label><input type="file" accept="image/*" multiple data-photos></div>
-      </div>
-      <div class="thumbs">${p.photos.map(f=>`<img src="${URL.createObjectURL(f)}">`).join('')}${p.photos.length?`<span class="muted">${p.photos.length} photo${p.photos.length>1?'s':''} — Claude will look at them and build the videos from them</span>`:''}</div>
-      <div class="actions"><button class="small" data-prompt title="No API key? Paste this into claude.ai">Copy prompt for claude.ai</button></div>`;
-    el.querySelectorAll('.brandchips button').forEach(b=>b.onclick=()=>{p.brand=b.dataset.b;ls.set('lastBrand',p.brand);renderPosts();});
+  const box=$('#posts');box.innerHTML='';const cai=MODE==='claudeai';
+  posts.forEach((p,i)=>{const el=document.createElement('div');el.className='card post';const b=brandById(p.brand);
+    el.innerHTML=`<div class="post-head"><span class="n">${i+1}</span><b>${esc(b.name)}</b><span class="sp"></span>${p.parsed?'<span class="status done">answer ready ✓</span>':''}${posts.length>1?'<button class="small danger" data-rm>Remove</button>':''}</div>
+      <div class="step"><span class="k">1</span><div><label>Brand</label><div class="brandchips">${chips(p.brand)}</div></div></div>
+      <div class="step"><span class="k">2</span><div><label>What is this post about? (idea, event, offer, or paste a full brief with your rules)</label>
+        <textarea data-k="brief" placeholder="e.g. Children's Day celebrations at school. Admissions open, book a free tour.">${esc(p.brief)}</textarea>
+        <details class="opts"><summary>Options: ${esc(p.language)} · ${p.length}s reel · ${p.frames} stories · ${esc(p.goal)}</summary><div class="grid">
+          <div><label>Language</label><select data-k="language">${opt(LANGS,p.language)}</select></div>
+          <div><label>Reel length</label><select data-k="length">${[15,20,30,45,60].map(x=>`<option value="${x}" ${x==p.length?'selected':''}>${x} seconds</option>`).join('')}</select></div>
+          <div><label>Story frames</label><select data-k="frames">${opt([3,4,5,6],p.frames)}</select></div>
+          <div><label>Goal</label><select data-k="goal">${opt(GOALS,p.goal)}</select></div></div></details></div></div>
+      <div class="step"><span class="k">3</span><div><label>📷 Your real photos (up to 20). Real photos build trust and bring enquiries.</label>
+        <label class="drop"><input type="file" accept="image/*" multiple data-photos>${p.photos.length?`<b>${p.photos.length} photo${p.photos.length>1?'s':''} added</b>, click or drop to add more`:'<b>Click to choose photos</b> or drag &amp; drop them here'}</label>
+        <div class="thumbs">${p.photos.map((f,k)=>`<div class="t"><img src="${URL.createObjectURL(f)}"><b>${k}</b><button type="button" data-delphoto="${k}" title="Remove">✕</button></div>`).join('')}</div></div></div>
+      ${cai?`<div class="step"><span class="k">4</span><div class="cai"><b>💬 Write it with claude.ai (free)</b>
+        <ol class="muted"><li>Click <b>Copy prompt</b>, then open <a href="https://claude.ai/new" target="_blank" rel="noopener">claude.ai</a> and paste it.</li>
+          ${p.photos.length?`<li>Attach the same <b>${p.photos.length} photo${p.photos.length>1?'s':''}</b> in the same order (numbers 0–${p.photos.length-1} above), then send.</li>`:'<li>Send the message.</li>'}
+          <li>Copy Claude's whole answer and paste it below. The app then makes the Reel and Story videos.</li></ol>
+        <div class="actions" style="margin:0 0 10px"><button type="button" class="primary" data-prompt>📋 Copy prompt</button><a href="https://claude.ai/new" target="_blank" rel="noopener"><button type="button" class="ghost">Open claude.ai ↗</button></a></div>
+        <textarea data-answer placeholder="Paste Claude's answer here (the \`\`\`json block)">${esc(p.answer)}</textarea>
+        <div class="${p.perr?'err':'ok'}" style="font-size:13px;margin-top:6px">${p.perr?esc(p.perr):p.parsed?`✓ Answer read: ${p.parsed.reel.video.scenes.length} reel scenes and ${p.parsed.story.frames.length} stories. Click Create to make the videos.`:''}</div></div></div>`:''}`;
+    el.querySelectorAll('.brandchips button').forEach(x=>x.onclick=()=>{p.brand=x.dataset.b;ls.set('lastBrand',p.brand);p.parsed=null;renderPosts();});
     el.querySelectorAll('[data-k]').forEach(x=>x.oninput=()=>{p[x.dataset.k]=x.value;});
-    el.querySelector('[data-photos]').onchange=async e=>{const fs=[...e.target.files].filter(f=>f.type.startsWith('image/')).slice(0,20);
-      el.querySelector('.thumbs').textContent='Preparing photos…';p.photos=await Promise.all(fs.map(shrinkPhoto));renderPosts();};
+    el.querySelectorAll('select[data-k]').forEach(x=>x.onchange=()=>{p[x.dataset.k]=x.value;renderPosts();});
+    el.querySelector('[data-photos]').onchange=e=>addPhotos(p,e.target.files);
+    const dz=el.querySelector('.drop');['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('hover');}));
+    ['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('hover');}));dz.addEventListener('drop',e=>addPhotos(p,e.dataTransfer.files));
+    el.querySelectorAll('[data-delphoto]').forEach(x=>x.onclick=e=>{e.preventDefault();const k=+x.dataset.delphoto;p.photos.splice(k,1);p.photoNames.splice(k,1);p.parsed=null;renderPosts();});
     el.querySelector('[data-rm]')?.addEventListener('click',()=>{posts.splice(i,1);renderPosts();});
-    el.querySelector('[data-prompt]').onclick=async e=>{if(!p.brief.trim())return;await copy(`${SYSTEM}\n\n${buildPrompt(brandById(p.brand),p,0)}`);flash(e.target);};
+    el.querySelector('[data-prompt]')?.addEventListener('click',async e=>{if(!p.brief.trim()){$('#createStatus').textContent='Write what the post is about first (step 2).';return;}await copy(claudeAiPrompt(p));flash(e.target);});
+    const ans=el.querySelector('[data-answer]');
+    if(ans)ans.oninput=()=>{p.answer=ans.value;if(!ans.value.trim()){p.parsed=null;p.perr='';}else{try{p.parsed=parseAnswer(ans.value,brandById(p.brand));p.perr='';}catch(e){p.parsed=null;p.perr=e.message;}}
+      clearTimeout(ans._t);ans._t=setTimeout(()=>{renderPosts();const t=document.querySelectorAll('[data-answer]')[i];if(t){t.focus();t.setSelectionRange(t.value.length,t.value.length);}},600);};
     box.appendChild(el);});
-  $('#createBtn').textContent=`✨ Create ${posts.length} post${posts.length>1?'s':''} — text + reel + stories`;
+  $('#createBtn').textContent=cai?`🎬 Make videos for ${posts.length} post${posts.length>1?'s':''}`:`✨ Create ${posts.length} post${posts.length>1?'s':''}: text + reel + stories`;
 }
 $('#addPost').onclick=()=>{const l=posts[posts.length-1];posts.push({...newPost(l?.brand),language:l?.language||'English',length:l?.length||30,frames:l?.frames||4});renderPosts();};
 $('#pasteMany').onclick=()=>{let sel=posts[0]?.brand||CFG.brands[0].id;
@@ -737,12 +826,14 @@ function scheduleFor(start,index,perDay,time){const d=new Date((start||new Date(
 $('#createBtn').onclick=async()=>{
   const list=posts.filter(p=>p.brief.trim());
   if(!list.length){$('#createStatus').textContent='Write what the post is about first.';return;}
-  if(!CFG.apiKey){openSettings();return;}
+  if(MODE==='claudeai'){const miss=list.findIndex(p=>!p.parsed);if(miss>=0){$('#createStatus').innerHTML=`<span class="err">Post ${posts.indexOf(list[miss])+1}: paste Claude's answer first (step 4).</span>`;return;}}
+  else if(!CFG.apiKey){openSettings();return;}
   const batch={id:uid(),name:$('#batchName').value.trim()||`Posts ${new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'})}`,created:new Date().toISOString(),jobs:[]};
   const cnt={};
   for(const [i,p] of list.entries()){const b=brandById(p.brand),n=cnt[b.id]=(cnt[b.id]||0);cnt[b.id]++;
     const j={id:uid(),brand:b.id,settings:{brief:p.brief,language:p.language,length:+p.length,frames:+p.frames,goal:p.goal},photoCount:p.photos.length,
       folder:`${String(i+1).padStart(2,'0')}-${b.id}-${slug(p.brief.split('\n')[0])}`,schedule:scheduleFor($('#startDate').value,n,+$('#perDay').value,b.post_time)};
+    if(MODE==='claudeai')j.content=p.parsed;
     for(const [k,f] of p.photos.entries())await idb.put(`${j.id}/photo-${k}`,f);
     batch.jobs.push(j);}
   LIB.unshift(batch);saveLib();batch.jobs.forEach(enqueue);
@@ -906,12 +997,12 @@ function openSettings(){
 function collect(){document.querySelectorAll('#brandEdit [data-bi]').forEach(x=>{const b=CFG.brands[x.dataset.bi];if(!b)return;if(x.dataset.c){b.colors=b.colors||{};b.colors[x.dataset.c]=x.value;}else b[x.dataset.k]=x.value;});CFG.apiKey=$('#apiKey').value.trim();}
 $('#settingsBtn').onclick=openSettings;
 $('#addBrand').onclick=()=>{collect();CFG.brands.push({id:'brand'+uid(),name:'New brand',site:'',whatsapp:'',profile:'',colors:{primary:'#5b4bdb',secondary:'#ec4899',accent:'#14a38b',tint1:'#e6e3ff',tint2:'#d9f5ee',cream:'#f7f7fb'},music:'cheerful',post_time:'19:30',logo:''});openSettings();$('#brandEdit').lastElementChild.open=true;};
-$('#saveSettings').onclick=()=>{collect();saveCfg();settingsDlg.close();checkWarn();renderPosts();};
+$('#saveSettings').onclick=()=>{collect();saveCfg();settingsDlg.close();if(CFG.apiKey&&MODE!=='api')setMode('api');else{checkWarn();renderPosts();}};
 $('#resetBrands').onclick=()=>{if(!confirm('Reset all brand profiles to the defaults?'))return;CFG.brands=structuredClone(DEFAULT_BRANDS);saveCfg();openSettings();renderPosts();};
 
 /* ---------- start ---------- */
 const d=new Date();$('#startDate').value=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-posts=[newPost()];renderPosts();checkWarn();updateWorkCount();
+posts=[newPost()];setMode(MODE||(CFG.apiKey?'api':'claudeai'));updateWorkCount();
 window.__scs={LIB:()=>LIB,buildRenderer,encodeMp4,still,timeline};
 </script>
 </body>

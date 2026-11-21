@@ -26,7 +26,7 @@ It's set up for **Natania Preschool**, **New Genesis Educational Institution (NG
 3. On **✏️ Create**, pick a brand, type or paste the brief, then click **Create**.
    - **＋ Add another post** adds more posts, for any brand.
    - **📋 Paste many briefs (bulk)** lets you paste many at once, with a `---` line between them.
-   - Optional photos you add to a post appear in the video.
+   - **Add your real photos (up to 20 per post). This is strongly recommended.** Claude looks at them, picks the best one for each moment, and builds the Reel (photo montages and text over photos), the Stories and the cover from them. Real photos build trust and bring enquiries.
 4. Open **📚 Library** to watch the videos, copy texts, edit the video text and re-make it, or rewrite with Claude.
 5. Use **📤 Upload helper** or **⬇ Download all (ZIP)** to publish through Meta Business Suite.
 
